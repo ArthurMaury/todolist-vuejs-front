@@ -4,8 +4,8 @@ var webpack = require('webpack')
 module.exports = {
   entry: './src/main.js',
   output: {
-    path: path.resolve(__dirname, './deploy/dist'),
-    publicPath: '/deploy/dist/',
+    path: path.resolve(__dirname, './public/js'),
+    publicPath: '/js/',
     filename: 'build.js'
   },
   resolve: {
@@ -49,6 +49,7 @@ module.exports = {
     ]
   },
   devServer: {
+    contentBase: path.join(__dirname, "public"),
     historyApiFallback: true,
     noInfo: true
   },

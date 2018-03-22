@@ -1,22 +1,32 @@
 <template>
   <v-card @mouseover="isHover = true" @mouseout="isHover = false" >
-    <v-card-title class="cardTitle" @click="edit">{{task.title}}</v-card-title>
-    <v-card-text class="cardText" @click="edit">{{task.description}}</v-card-text>
+    <v-card-title class="cardTitle" @click="edit" v-if="task.title != ''">{{task.title}}</v-card-title>
+    <v-card-text class="cardText" @click="edit" :class="{bigCardText : task.title == ''}">{{task.description}}</v-card-text>
     <v-card-actions>
       <v-btn flat small fab @click="edit">
         <v-icon v-if="isHover">edit</v-icon>
       </v-btn>
-      <v-btn flat small fab @click="del">
+      <v-btn flat small fab @click="statusChangedTask(STATUS.deleted)"
+        v-if="task.status != STATUS.deleted">
         <v-icon v-if="isHover">delete</v-icon>
       </v-btn>
+      <v-btn flat small fab @click="deleteTask"
+        v-if="task.status == STATUS.deleted">
+        <v-icon v-if="isHover">delete</v-icon>
+      </v-btn>
+      <v-btn flat small fab @click="statusChangedTask(STATUS.archived)"
+              v-if="task.status != STATUS.archived">
+        <v-icon v-if="isHover">archive</v-icon>
+      </v-btn>
       <v-spacer/>
-      <taskStatusMenu @statusChanged="statusChange" :status="task.status"/>
+      <taskStatusMenu @statusChangedTask="statusChangedTask" :status="task.status"/>
     </v-card-actions>
   </v-card>
 </template>
 
 <script>
 import taskStatusMenu from "./task-status-menu.vue";
+import * as tools from "../tools";
 
 export default {
   name: "task-card",
@@ -26,19 +36,20 @@ export default {
   },
   data() {
     return {
-      isHover: false
+      isHover: false,
+      STATUS: tools.STATUS
     };
   },
   methods: {
     edit() {
       this.$emit("taskEdit", this.task);
     },
-    del() {
-      this.$emit("taskDelete", this.task);
+    deleteTask() {
+      this.$emit("deleteTask", this.task);
     },
-    statusChange(status) {
+    statusChangedTask(status) {
       this.task.status = status;
-      this.$emit("statusChanged", this.task);
+      this.$emit("statusChangedTask", this.task);
     }
   }
 };
@@ -49,6 +60,13 @@ export default {
   word-wrap: break-word;
   padding: 0 16px;
   white-space: pre-wrap;
+}
+.bigCardText {
+  word-wrap: break-word;
+  padding: 15px 16px;
+  white-space: pre-wrap;
+  font-weight: 300;
+  font-size: 35px;
 }
 .cardTitle {
   font-size: 20px;

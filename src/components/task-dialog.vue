@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="active" max-width="500px">
-    <v-btn fixed bottom fab dark right color="indigo" slot="activator">
+    <v-btn fixed bottom fab dark right color="indigo" slot="activator" v-if="showAddButton">
       <v-icon>add</v-icon>
     </v-btn>
     <v-card>
@@ -18,10 +18,12 @@
 
 <script>
 import editable from "./editable.vue";
+import * as tools from "../tools";
+import { STATUS } from '../tools';
 
 export default {
   name: "task-dialog",
-  props: ["task"],
+  props: ["task", "showAddButton"],
   components: {
     editable
   },
@@ -31,7 +33,8 @@ export default {
       title: "",
       description: "",
       taskDescription: "",
-      taskTitle: ""
+      taskTitle: "",
+      STATUS: tools.STATUS
     };
   },
   watch: {
@@ -72,11 +75,13 @@ export default {
         let modifiedTask = this.task;
         modifiedTask.title = this.title;
         modifiedTask.description = this.description;
+        modifiedTask.status = STATUS.todo;
         this.$emit("closed", modifiedTask);
       } else {
         this.$emit("closed", {
           title: this.title,
-          description: this.description
+          description: this.description,
+          status: STATUS.todo
         });
       }
     }

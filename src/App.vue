@@ -5,7 +5,7 @@
         <!-- <taskListItem :task="task" :value="task.title" v-for="(task, i) in sortedTaskList" :key="i" @statusChangedTask="statusChangedTask" @taskEdit="taskEdit" @taskDelete="taskDelete" /> -->
         <v-list-tile @click="view = 'myTasks'">
           <v-icon>check_box</v-icon>
-          <v-list-tile-title>My Tasks</v-list-tile-title>
+          <v-list-tile-title>My Tasks</v-list-tile-title>   
         </v-list-tile>
         <v-list-tile @click="view = 'archives'">
           <v-icon>archive</v-icon>

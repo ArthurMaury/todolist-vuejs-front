@@ -20,7 +20,7 @@
     <v-toolbar fixed app clipped-left color="indigo" dark>
       <v-toolbar-title class="hidden-sm-and-down">
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        TodoList
+        TodoList Vuejs
       </v-toolbar-title>
       <v-toolbar-items id="searchBar">
         <v-text-field solo-inverted prepend-icon="search" label="Search" v-model="searchText" clearable flat color="white" :loading="searchLoading" />
